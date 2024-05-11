@@ -4,14 +4,17 @@ import time
 import random
 
 def minimax(board, XO):
+    global minimax_calls
+    minimax_calls += 1
     if XO == 1:
         best = [None, -float('inf')]
     else:
         best = [None, float('inf')]
     result = board.check()
     if result in (1, 0, -1):
-        score = result*(len(board.available_moves())+1)
+        score = result#*(len(board.available_moves())+1)
         return [None, score]
+
     for move in board.available_moves():
         new_board = deepcopy(board)
         new_board.move(move, XO)
@@ -24,8 +27,25 @@ def minimax(board, XO):
                 best = [move, score]
     return best
 
-
+def negamax(board, XO):
+    global negamax_calls
+    negamax_calls += 1
+    best = [None, -float('inf')]
+    result = board.check()
+    if result in (1, 0, -1):
+        #score  = result
+        return [None, XO*result]
+    for move in board.available_moves():
+        new_board = deepcopy(board)
+        new_board.move(move, XO)
+        _, score = negamax(new_board, -XO)
+        score = -score
+        if score > best[1]:
+            best = [move, score]
+    return best
 if __name__ == '__main__':
+    minimax_calls = 0
+    negamax_calls = 0
     clear_screen()
     print('Welcome')
     go_first = input('Do you want to go first? [Y/n]: ').lower()
@@ -62,7 +82,7 @@ if __name__ == '__main__':
             if len(board.available_moves()) == 9:
                 bot_choice = random.choice(range(9))
             else:
-                bot_choice = minimax(board, bot)[0]
+                bot_choice = negamax(board, bot)[0]
             history.append(bot_choice)
             board.move(bot_choice, bot)
         turn = int(not(turn))
@@ -101,3 +121,5 @@ if __name__ == '__main__':
             print('Draw')
             break
 
+    print(f'total number of minimax calls: {minimax_calls}')
+    print(f'total number of negamax calls: {negamax_calls}')
