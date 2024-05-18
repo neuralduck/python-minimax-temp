@@ -102,22 +102,6 @@ class ConnectFour:
 							return int(down/4)
 		return 3
 
-
-'''board = ConnectFour()
-board.move(0, -1)
-board.move(0, -1)
-board.move(0, -1)
-board.move(0, -1)
-board.move(0, -1)
-
-print(board.symbol1)
-print(board.symbol2)
-print(board)
-print(board.move_count)
-print(board.available_moves())
-print(board.num_cells())
-print(board.check())'''
-
 if __name__ == '__main__':
 	def info():
 		os.system('clear||cls')
