@@ -60,7 +60,7 @@ class ConnectFour:
 						if DOWN:
 							right_down = 0
 							for n in range(4):
-								right_down += self.board[i+n][j-n]
+								right_down += self.board[i+n][j+n]
 							if abs(right_down) == 4:
 								return int(right_down/4)
 					if LEFT:
